@@ -9,7 +9,7 @@ using System.Net;
 namespace WebApi.Controllers
 {
     [Route("[controller]")]
-    [Authorize(Roles = Roles.SuperAdmin)]
+    [Authorize(Roles = Roles.Admin)]
     public class LanguageController : ControllerBase 
     {
         private readonly LanguageService _languageService; 
