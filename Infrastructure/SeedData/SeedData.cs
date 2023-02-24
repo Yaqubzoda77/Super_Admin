@@ -15,7 +15,7 @@ public static  class SeedData
         var roles = new List<IdentityRole>()
         {
 
-            new IdentityRole(Roles.SuperAdmin){NormalizedName = Roles.SuperAdmin.ToUpper()},
+            new IdentityRole(Roles.Admin){NormalizedName = Roles.Admin.ToUpper()},
             new IdentityRole(Roles.Student){NormalizedName = Roles.Student.ToUpper()},
 
         };

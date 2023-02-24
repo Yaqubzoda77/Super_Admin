@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace WebApi.Controllers;
 
 [Route("[controller]")]
-[Authorize(Roles = Roles.SuperAdmin)]
+[Authorize(Roles = Roles.Admin)]
 public class AccountController : ControllerBase
 {
     private readonly AccountService _accountService;
@@ -63,7 +63,7 @@ public class AccountController : ControllerBase
     [HttpDelete("DeleteRole")]
     public async Task<Response<AssignRoleDto>> DeleteRole([FromBody] AssignRoleDto model)
     {
-        return await _accountService.AssignUserRole(model);
+        return await _accountService.DeleteRole(model);
     }
     
 }

@@ -1,5 +1,7 @@
 
 using System.Text;
+using Domain.Setting;
+using Infrastructure;
 using Infrastructure.Data;
 using Infrastructure.MapperProfiles;
 using Infrastructure.SeedData;
@@ -9,6 +11,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using IApplicationBuilder = Microsoft.AspNetCore.Builder.IApplicationBuilder;
+using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
+using IServiceCollection = Microsoft.Extensions.DependencyInjection.IServiceCollection;
+using IWebHostEnvironment = Microsoft.AspNetCore.Hosting.IWebHostEnvironment;
+using OpenApiInfo = Microsoft.OpenApi.Models.OpenApiInfo;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +24,10 @@ var connection = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<DataContext>(conf => conf.UseNpgsql(connection));
 builder.Services.AddControllers();
 builder.Services.AddScoped<AccountService >();
-
+builder.Services.AddScoped<MailService >();
+builder.Services.AddScoped<MailSettings>();
+    
+builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 builder.Services.AddAutoMapper(typeof(InfrastructureProfile));
 
 //jwt config
@@ -128,3 +138,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+
+
