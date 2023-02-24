@@ -1,4 +1,3 @@
-using System.Security.Cryptography.X509Certificates;
 using Domain.Contain;
 using Domain.DomainDto;
 using Domain.Wrapper;
@@ -21,49 +20,45 @@ public class AccountController : ControllerBase
     }
 
     [HttpPost("Register")]
-    // [Authorize(Roles = Roles.Student)]
-[AllowAnonymous]
+   [AllowAnonymous]
     public async Task<Response<IdentityResult>> Register([FromBody] RegistrDto model)
     {
         return await _accountService.Register(model);
     }
 
     [HttpPost("Login")]
-    // [Authorize(Roles = Roles.Student)]
-
     [AllowAnonymous]
-
     public async Task<Response<TokenDto>> Login([FromBody] LoginDto model)
     {
         return await _accountService.Login(model);
     }
-
-   
+ 
     [HttpGet("GetUsers")]
-
+    [AllowAnonymous]
     public async Task<Response<List<UserDto>>> GetUsers()
     {
         return await _accountService.GetUsers();
     }
     
-    [HttpGet("GetRole")]
+    [HttpGet("GetRoles")]
+    [AllowAnonymous]
 
-    public async Task<Response<List<RoleDto>>> GetRols()
+    public async Task<Response<List<RoleDto>>> GetRoles()
     {
-        return await _accountService.GetRolesTask();
+        return await _accountService.GetRolesTask(); 
     }
 
-    [HttpPost("AssighnRole")]
-
+    [HttpPost("AssignRole")]
+    [AllowAnonymous]
     public async Task<Response<AssignRoleDto>> AssignUserRole([FromBody] AssignRoleDto model)
     {
         return await _accountService.AssignUserRole(model);
     }
-    
-    [HttpDelete("DeleteRole")]
-    public async Task<Response<AssignRoleDto>> DeleteRole([FromBody] AssignRoleDto model)
+    [AllowAnonymous]
+    [HttpDelete("RemoveRole")]   
+    public async Task<Response<AssignRoleDto>> RemoveRole([FromBody] AssignRoleDto model)
     {
-        return await _accountService.DeleteRole(model);
+        return await _accountService.RemoveUserRole(model); 
     }
     
 }

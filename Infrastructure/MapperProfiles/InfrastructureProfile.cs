@@ -1,5 +1,6 @@
 using AutoMapper;
 using Domain.DomainDto;
+using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 
 
@@ -12,6 +13,9 @@ public class InfrastructureProfile : Profile
       
         CreateMap<IdentityUser, UserDto>();
         CreateMap<IdentityRole, RoleDto>();
-
+        CreateMap<Translate, TranslateDto>().ReverseMap();
+        CreateMap<Language, LanguageDto>().ReverseMap();
+        CreateMap<Group, GroupDto>().ReverseMap();
+        
     }
 }

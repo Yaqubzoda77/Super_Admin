@@ -28,6 +28,13 @@ builder.Services.AddScoped<MailService >();
 builder.Services.AddScoped<MailSettings>();
     
 builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
+builder.Services.AddScoped<LanguageService>();
+builder.Services.AddScoped<TranslateService>();
+
+
+
+
+
 builder.Services.AddAutoMapper(typeof(InfrastructureProfile));
 
 //jwt config
