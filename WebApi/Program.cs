@@ -17,6 +17,12 @@ var connection = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<DataContext>(conf => conf.UseNpgsql(connection));
 builder.Services.AddControllers();
 builder.Services.AddScoped<AccountService >();
+builder.Services.AddScoped<LanguageService>();
+builder.Services.AddScoped<TranslateService>();
+
+
+
+
 
 builder.Services.AddAutoMapper(typeof(InfrastructureProfile));
 

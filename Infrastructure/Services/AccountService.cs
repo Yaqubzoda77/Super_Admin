@@ -24,7 +24,6 @@ namespace Infrastructure.Services;
         IMapper mapper)
     {
         _mapper = mapper;
-
         _configuration = configuration;
         _userManager = userManager;
         _context = context;
@@ -88,11 +87,8 @@ namespace Infrastructure.Services;
     public async Task<Response<List<RoleDto>>> GetRolesTask()
     {
         var roles = await _context.Roles.ToListAsync();
-        return new Response<List<RoleDto>>(_mapper.Map<List<RoleDto>>(roles));
+        return new Response<List<RoleDto>>(_mapper.Map<List<RoleDto>>(roles)); 
     }
-
-   
-
 
     public async Task<Response<AssignRoleDto>> AssignUserRole(AssignRoleDto assign)
     {
@@ -101,34 +97,30 @@ namespace Infrastructure.Services;
             var role = await _context.Roles.FirstOrDefaultAsync(x =>x.Id.ToUpper() == assign.RoleId.ToUpper());
             var user = await _context.Users.FirstOrDefaultAsync(x =>x.Id.ToUpper() == assign.UserId.ToUpper());
             await _userManager.AddToRoleAsync(user, role.Name);
-            return new Response<AssignRoleDto>(assign);
+            return new Response<AssignRoleDto>(assign); 
         }
         catch (Exception ex)
         {
             return new Response<AssignRoleDto>(HttpStatusCode.InternalServerError,new List<string>(){ex.Message});
-
         }
     }
 
-   
-
-    public async Task<Response<AssignRoleDto>> DeleteRole(AssignRoleDto assign)
+    public async Task<Response<AssignRoleDto>> RemoveUserRole(AssignRoleDto assign) 
     {
         try
         {
             var role = await _context.Roles.FirstOrDefaultAsync(x =>x.Id.ToUpper() == assign.RoleId.ToUpper());
             var user = await _context.Users.FirstOrDefaultAsync(x =>x.Id.ToUpper() == assign.UserId.ToUpper());
             await _userManager.RemoveFromRoleAsync(user, role.Name);
-            return new Response<AssignRoleDto>(assign);
+            return new Response<AssignRoleDto>(assign); 
         }
         catch (Exception ex)
         {
-            return new Response<AssignRoleDto>(HttpStatusCode.InternalServerError,new List<string>(){ex.Message});
+            return new Response<AssignRoleDto>(HttpStatusCode.InternalServerError, new List<string>(){ex.Message});
 
         }
     }
     
-
     private async Task<TokenDto> GenerateJWTToken(IdentityUser user)
     {
         return await Task.Run(() =>
@@ -156,7 +148,5 @@ namespace Infrastructure.Services;
             var tokenString = tokenHandler.WriteToken(token);
             return new TokenDto(tokenString);
         });
-        
-
     }
 }
