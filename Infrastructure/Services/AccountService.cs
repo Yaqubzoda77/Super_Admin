@@ -41,29 +41,6 @@ namespace Infrastructure.Services;
         var result = await _userManager.CreateAsync(user, registerDto.Password);
         return new Response<IdentityResult>(result);
     }
-
-    
-    public async Task<Response<List<UserDto>>> GetUsers()
-    {
-        var users = await _context.Users.Select(x => new UserDto()
-            {
-                Id = x.Id,
-                Username = x.UserName,
-                PhoneNumber = x.PhoneNumber,
-                Roles = (from u in _context.UserRoles
-                    join r in _context.Roles on u.RoleId equals r.Id
-                    where x.Id == u.UserId
-                    select new RoleDto()
-                    {
-                        Id = r.Id,
-                        Name = r.Name
-                    }).ToList()
-            }
-        ).ToListAsync();
-    return new Response<List<UserDto>>(_mapper.Map<List<UserDto>>(users));
-    }
-
-    
     
     public async Task<Response<TokenDto>> Login(LoginDto model)
     {
@@ -81,43 +58,6 @@ namespace Infrastructure.Services;
         else
         {
             return new Response<TokenDto>(HttpStatusCode.BadRequest, new List<string>());
-        }
-    }
-    
-    public async Task<Response<List<RoleDto>>> GetRolesTask()
-    {
-        var roles = await _context.Roles.ToListAsync();
-        return new Response<List<RoleDto>>(_mapper.Map<List<RoleDto>>(roles)); 
-    }
-
-    public async Task<Response<AssignRoleDto>> AssignUserRole(AssignRoleDto assign)
-    {
-        try
-        {
-            var role = await _context.Roles.FirstOrDefaultAsync(x =>x.Id.ToUpper() == assign.RoleId.ToUpper());
-            var user = await _context.Users.FirstOrDefaultAsync(x =>x.Id.ToUpper() == assign.UserId.ToUpper());
-            await _userManager.AddToRoleAsync(user, role.Name);
-            return new Response<AssignRoleDto>(assign); 
-        }
-        catch (Exception ex)
-        {
-            return new Response<AssignRoleDto>(HttpStatusCode.InternalServerError,new List<string>(){ex.Message});
-        }
-    }
-
-    public async Task<Response<AssignRoleDto>> RemoveUserRole(AssignRoleDto assign) 
-    {
-        try
-        {
-            var role = await _context.Roles.FirstOrDefaultAsync(x =>x.Id.ToUpper() == assign.RoleId.ToUpper());
-            var user = await _context.Users.FirstOrDefaultAsync(x =>x.Id.ToUpper() == assign.UserId.ToUpper());
-            await _userManager.RemoveFromRoleAsync(user, role.Name);
-            return new Response<AssignRoleDto>(assign); 
-        }
-        catch (Exception ex)
-        {
-            return new Response<AssignRoleDto>(HttpStatusCode.InternalServerError, new List<string>(){ex.Message});
-
         }
     }
     

@@ -23,7 +23,7 @@ public class MailService
                 Credentials = new NetworkCredential(_mailSettings.Mail, _mailSettings.Password),
                 EnableSsl = true,
             };
-             
+
             var mailMessage = new MailMessage
             {
                 From = new MailAddress(_mailSettings.Mail),
@@ -35,10 +35,10 @@ public class MailService
             await smtpClient.SendMailAsync(mailMessage);
             return true;
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            Console.WriteLine(e.Message);
-            return  false ;
+            Console.WriteLine(ex.Message); 
+            return false;
         }
-         }
+    }
 }

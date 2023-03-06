@@ -9,8 +9,7 @@ public static  class SeedData
 {
     public static void Seed(DataContext context)
     {
-  
-        
+      
         if(context.Translations.Any()) return; 
         var roles = new List<IdentityRole>()
         {

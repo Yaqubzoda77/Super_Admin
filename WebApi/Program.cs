@@ -24,9 +24,13 @@ var connection = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<DataContext>(conf => conf.UseNpgsql(connection));
 builder.Services.AddControllers();
 builder.Services.AddScoped<AccountService >();
-builder.Services.AddScoped<MailService >();
+builder.Services.AddScoped<MailService >(); 
 builder.Services.AddScoped<MailSettings>();
-    
+builder.Services.AddScoped<RoleService>();
+builder.Services.AddScoped<UserService>();
+
+
+
 builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 builder.Services.AddScoped<LanguageService>();
 builder.Services.AddScoped<TranslateService>();

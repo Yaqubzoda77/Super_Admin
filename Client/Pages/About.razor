@@ -1,0 +1,43 @@
+@page "/about"
+@inject HttpClient Http
+@if (forecasts == null)
+{
+    <p><em>Loading... about </em></p>
+}
+<h3>About us</h3> 
+<table class="table table-hover table-light">
+  <thead>
+    <tr>
+      <th scope="col">C#</th>
+      <th scope="col">First Name</th>
+      <th scope="col">Last Name</th>
+      <th scope="col">Number Phone</th>
+      <th scope="col">Email</th> 
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Muhammad</td>
+      <td>Yaqubzoda</td>
+      <td>901104649</td>
+      <td>yaqubzodamuhammad3@gmail.com</td> 
+    </tr> 
+    <tr>
+      <th scope="row">2</th>
+      <td >Shahrom</td>
+      <td>Sharipov</td>
+      <td>909050409</td>
+      <td>Shahrom909050409@gmail.com</td>
+
+    </tr>
+  </tbody>
+</table>
+@code {
+  private WeatherForecast[]? forecasts;
+
+  protected override async Task OnInitializedAsync()
+  {
+    forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("WeatherForecast"); 
+  }
+}
